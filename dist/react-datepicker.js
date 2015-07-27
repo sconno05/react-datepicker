@@ -77,7 +77,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return {
 	      weekdays: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
 	      locale: 'en',
-	      dateFormatCalendar: 'MMMM YYYY',
+	      dateFormatCalendar: "MMMM YYYY",
 	      moment: moment,
 	      onChange: function onChange() {},
 	      disabled: false
@@ -89,6 +89,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      focus: false,
 	      selected: this.props.selected
 	    };
+	  },
+
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    this.setState({
+	      selected: nextProps.selected
+	    });
 	  },
 
 	  getValue: function getValue() {
@@ -314,7 +320,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this.props.moment.weekdaysMin().map(function (day, key) {
 	      return React.createElement(
 	        'div',
-	        { className: 'datepicker__day', key: key },
+	        { className: "datepicker__day", key: key },
 	        day
 	      );
 	    });
@@ -323,19 +329,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      { className: 'datepicker' },
-	      React.createElement('div', { className: 'datepicker__triangle' }),
+	      { className: "datepicker" },
+	      React.createElement('div', { className: "datepicker__triangle" }),
 	      React.createElement(
 	        'div',
-	        { className: 'datepicker__header' },
-	        React.createElement('a', { className: 'datepicker__navigation datepicker__navigation--previous',
+	        { className: "datepicker__header" },
+	        React.createElement('a', { className: "datepicker__navigation datepicker__navigation--previous",
 	          onClick: this.decreaseMonth }),
 	        React.createElement(
 	          'span',
-	          { className: 'datepicker__current-month' },
+	          { className: "datepicker__current-month" },
 	          this.state.date.localeFormat(this.props.locale, this.props.dateFormat)
 	        ),
-	        React.createElement('a', { className: 'datepicker__navigation datepicker__navigation--next',
+	        React.createElement('a', { className: "datepicker__navigation datepicker__navigation--next",
 	          onClick: this.increaseMonth }),
 	        React.createElement(
 	          'div',
@@ -345,7 +351,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      ),
 	      React.createElement(
 	        'div',
-	        { className: 'datepicker__month' },
+	        { className: "datepicker__month" },
 	        this.weeks()
 	      )
 	    );
@@ -356,7 +362,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
 
@@ -408,13 +414,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
 
 /***/ },
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
 
@@ -512,13 +518,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 6 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_6__;
 
 /***/ },
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_7__;
 
@@ -604,7 +610,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 9 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_9__;
 
@@ -674,7 +680,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  handleKeyDown: function handleKeyDown(event) {
 	    switch (event.key) {
-	      case 'Enter':
+	      case "Enter":
 	        event.preventDefault();
 	        this.props.handleEnter();
 	        break;
@@ -689,8 +695,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  render: function render() {
 	    return React.createElement('input', {
-	      ref: 'input',
-	      type: 'text',
+	      ref: "input",
+	      type: "text",
 	      name: this.props.name,
 	      value: this.state.value,
 	      onClick: this.handleClick,
