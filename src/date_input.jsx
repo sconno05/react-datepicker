@@ -79,6 +79,7 @@ var DateInput = React.createClass({
       onClick={this.handleClick}
       onKeyDown={this.handleKeyDown}
       onFocus={this.props.onFocus}
+      onBlur={this.props.onBlur}
       onChange={this.handleChange}
       className={this.props.className}
       placeholder={this.props.placeholderText}
