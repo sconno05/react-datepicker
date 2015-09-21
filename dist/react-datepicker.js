@@ -107,6 +107,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	  },
 
+	  lostFocus: function lostFocus() {
+	    this.setState({
+	      focus: false
+	    });
+	  },
+
 	  hideCalendar: function hideCalendar() {
 	    setTimeout((function () {
 	      this.setState({
@@ -179,6 +185,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        dateFormat: this.props.dateFormat,
 	        focus: this.state.focus,
 	        onFocus: this.handleFocus,
+	        onBlur: this.lostFocus,
 	        handleClick: this.onInputClick,
 	        handleEnter: this.hideCalendar,
 	        setSelected: this.setSelected,
@@ -702,6 +709,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      onClick: this.handleClick,
 	      onKeyDown: this.handleKeyDown,
 	      onFocus: this.props.onFocus,
+	      onBlur: this.props.onBlur,
 	      onChange: this.handleChange,
 	      className: this.props.className,
 	      placeholder: this.props.placeholderText,

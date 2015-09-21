@@ -20445,6 +20445,12 @@ var ExampleApp =
 	    });
 	  },
 
+	  lostFocus: function lostFocus() {
+	    this.setState({
+	      focus: false
+	    });
+	  },
+
 	  hideCalendar: function hideCalendar() {
 	    setTimeout((function () {
 	      this.setState({
@@ -20517,6 +20523,7 @@ var ExampleApp =
 	        dateFormat: this.props.dateFormat,
 	        focus: this.state.focus,
 	        onFocus: this.handleFocus,
+	        onBlur: this.lostFocus,
 	        handleClick: this.onInputClick,
 	        handleEnter: this.hideCalendar,
 	        setSelected: this.setSelected,
@@ -46629,6 +46636,7 @@ var ExampleApp =
 	      onClick: this.handleClick,
 	      onKeyDown: this.handleKeyDown,
 	      onFocus: this.props.onFocus,
+	      onBlur: this.props.onBlur,
 	      onChange: this.handleChange,
 	      className: this.props.className,
 	      placeholder: this.props.placeholderText,
