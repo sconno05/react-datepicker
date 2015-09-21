@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("react"), require("tether"), require("moment"), require("lodash"), require("react-onclickoutside"));
+		module.exports = factory(require("react"), require("moment"), require("lodash"), require("react-onclickoutside"), require("tether"));
 	else if(typeof define === 'function' && define.amd)
-		define(["react", "tether", "moment", "lodash", "react-onclickoutside"], factory);
+		define(["react", "moment", "lodash", "react-onclickoutside", "tether"], factory);
 	else if(typeof exports === 'object')
-		exports["DatePicker"] = factory(require("react"), require("tether"), require("moment"), require("lodash"), require("react-onclickoutside"));
+		exports["DatePicker"] = factory(require("react"), require("moment"), require("lodash"), require("react-onclickoutside"), require("tether"));
 	else
-		root["DatePicker"] = factory(root["React"], root["Tether"], root["moment"], root["_"], root["OnClickOutside"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_7__, __WEBPACK_EXTERNAL_MODULE_8__, __WEBPACK_EXTERNAL_MODULE_9__) {
+		root["DatePicker"] = factory(root["React"], root["moment"], root["_"], root["OnClickOutside"], root["Tether"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_6__, __WEBPACK_EXTERNAL_MODULE_7__, __WEBPACK_EXTERNAL_MODULE_9__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -56,12 +56,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var React = __webpack_require__(1);
-	var Popover = __webpack_require__(2);
-	var DateUtil = __webpack_require__(4);
-	var Calendar = __webpack_require__(5);
+	var React = __webpack_require__(2);
+	var Popover = __webpack_require__(8);
+	var DateUtil = __webpack_require__(5);
+	var Calendar = __webpack_require__(1);
 	var DateInput = __webpack_require__(10);
-	var moment = __webpack_require__(7);
+	var moment = __webpack_require__(4);
 
 	var DatePicker = React.createClass({
 	  displayName: 'DatePicker',
@@ -104,6 +104,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  handleFocus: function handleFocus() {
 	    this.setState({
 	      focus: true
+	    });
+	  },
+
+	  lostFocus: function lostFocus() {
+	    this.setState({
+	      focus: false
 	    });
 	  },
 
@@ -179,6 +185,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        dateFormat: this.props.dateFormat,
 	        focus: this.state.focus,
 	        onFocus: this.handleFocus,
+	        onBlur: this.lostFocus,
 	        handleClick: this.onInputClick,
 	        handleEnter: this.hideCalendar,
 	        setSelected: this.setSelected,
@@ -196,209 +203,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
-
-/***/ },
-/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(1);
-
-	var Popover = React.createClass({
-	  displayName: 'Popover',
-
-	  componentWillMount: function componentWillMount() {
-	    var popoverContainer = document.createElement('span');
-	    popoverContainer.className = 'datepicker__container';
-
-	    this._popoverElement = popoverContainer;
-
-	    document.querySelector('body').appendChild(this._popoverElement);
-	  },
-
-	  componentDidMount: function componentDidMount() {
-	    this._renderPopover();
-	  },
-
-	  componentDidUpdate: function componentDidUpdate() {
-	    this._renderPopover();
-	  },
-
-	  _popoverComponent: function _popoverComponent() {
-	    var className = this.props.className;
-	    return React.createElement(
-	      'div',
-	      { className: className },
-	      this.props.children
-	    );
-	  },
-
-	  _tetherOptions: function _tetherOptions() {
-	    return {
-	      element: this._popoverElement,
-	      target: this.getDOMNode().parentElement,
-	      attachment: 'top left',
-	      targetAttachment: 'bottom left',
-	      targetOffset: '10px 0',
-	      optimizations: {
-	        moveElement: false // always moves to <body> anyway!
-	      },
-	      constraints: [{
-	        to: 'window',
-	        attachment: 'together'
-	      }]
-	    };
-	  },
-
-	  _renderPopover: function _renderPopover() {
-	    React.render(this._popoverComponent(), this._popoverElement);
-
-	    if (this._tether != null) {
-	      this._tether.setOptions(this._tetherOptions());
-	    } else if (window && document) {
-	      var Tether = __webpack_require__(3);
-	      this._tether = new Tether(this._tetherOptions());
-	    }
-	  },
-
-	  componentWillUnmount: function componentWillUnmount() {
-	    this._tether.destroy();
-	    React.unmountComponentAtNode(this._popoverElement);
-	    if (this._popoverElement.parentNode) {
-	      this._popoverElement.parentNode.removeChild(this._popoverElement);
-	    }
-	  },
-
-	  render: function render() {
-	    return React.createElement('span', null);
-	  }
-	});
-
-	module.exports = Popover;
-
-/***/ },
-/* 3 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
-
-/***/ },
-/* 4 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	function DateUtil(date) {
-	  this._date = date;
-	}
-
-	DateUtil.prototype.isBefore = function (other) {
-	  return this._date.isBefore(other._date, 'day');
-	};
-
-	DateUtil.prototype.isAfter = function (other) {
-	  return this._date.isAfter(other._date, 'day');
-	};
-
-	DateUtil.prototype.sameDay = function (other) {
-	  return this._date.isSame(other._date, 'day');
-	};
-
-	DateUtil.prototype.sameMonth = function (other) {
-	  return this._date.isSame(other._date, 'month');
-	};
-
-	DateUtil.prototype.day = function () {
-	  return this._date.date();
-	};
-
-	DateUtil.prototype.mapDaysInWeek = function (callback) {
-	  var week = [];
-	  var firstDay = this._date.clone();
-
-	  for (var i = 0; i < 7; i++) {
-	    var day = new DateUtil(firstDay.clone().add(i, 'days'));
-
-	    week[i] = callback(day, i);
-	  }
-
-	  return week;
-	};
-
-	DateUtil.prototype.mapWeeksInMonth = function (callback) {
-	  var month = [];
-	  var firstDay = this._date.clone().startOf('month').startOf('week');
-
-	  for (var i = 0; i < 6; i++) {
-	    var weekStart = new DateUtil(firstDay.clone().add(i, 'weeks'));
-
-	    month[i] = callback(weekStart, i);
-	  }
-
-	  return month;
-	};
-
-	DateUtil.prototype.weekInMonth = function (other) {
-	  var firstDayInWeek = this._date.clone();
-	  var lastDayInWeek = this._date.clone().weekday(7);
-
-	  return firstDayInWeek.isSame(other._date, 'month') || lastDayInWeek.isSame(other._date, 'month');
-	};
-
-	DateUtil.prototype.format = function () {
-	  return this._date.format.apply(this._date, arguments);
-	};
-
-	DateUtil.prototype.localeFormat = function () {
-	  var args = Array.prototype.slice.call(arguments);
-	  var locale = args.shift();
-	  return this._date.locale(locale).format.apply(this._date, args);
-	};
-
-	DateUtil.prototype.addMonth = function () {
-	  return new DateUtil(this._date.clone().add(1, 'month'));
-	};
-
-	DateUtil.prototype.subtractMonth = function () {
-	  return new DateUtil(this._date.clone().subtract(1, 'month'));
-	};
-
-	DateUtil.prototype.clone = function () {
-	  return new DateUtil(this._date.clone());
-	};
-
-	DateUtil.prototype.safeClone = function (alternative) {
-	  if (!!this._date) return this.clone();
-
-	  if (alternative === undefined) alternative = null;
-	  return new DateUtil(alternative);
-	};
-
-	DateUtil.prototype.moment = function () {
-	  return this._date;
-	};
-
-	module.exports = DateUtil;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-	var Day = __webpack_require__(6);
-	var DateUtil = __webpack_require__(4);
-	var _ = __webpack_require__(8);
+	var React = __webpack_require__(2);
+	var Day = __webpack_require__(3);
+	var DateUtil = __webpack_require__(5);
+	var _ = __webpack_require__(6);
 
 	var Calendar = React.createClass({
 	  displayName: 'Calendar',
 
-	  mixins: [__webpack_require__(9)],
+	  mixins: [__webpack_require__(7)],
 
 	  handleClickOutside: function handleClickOutside() {
 	    this.props.hideCalendar();
@@ -551,7 +368,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Calendar;
 
 /***/ },
-<<<<<<< HEAD
 /* 2 */
 /***/ function(module, exports) {
 
@@ -559,15 +375,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 3 */
-=======
-/* 6 */
->>>>>>> sconno05/master
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(1);
-	var moment = __webpack_require__(7);
+	var React = __webpack_require__(2);
+	var moment = __webpack_require__(4);
 
 	var Day = React.createClass({
 	  displayName: 'Day',
@@ -607,7 +420,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Day;
 
 /***/ },
-<<<<<<< HEAD
 /* 4 */
 /***/ function(module, exports) {
 
@@ -718,8 +530,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = __WEBPACK_EXTERNAL_MODULE_6__;
 
 /***/ },
-=======
->>>>>>> sconno05/master
 /* 7 */
 /***/ function(module, exports) {
 
@@ -727,9 +537,83 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 8 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_8__;
+	'use strict';
+
+	var React = __webpack_require__(2);
+
+	var Popover = React.createClass({
+	  displayName: 'Popover',
+
+	  componentWillMount: function componentWillMount() {
+	    var popoverContainer = document.createElement('span');
+	    popoverContainer.className = 'datepicker__container';
+
+	    this._popoverElement = popoverContainer;
+
+	    document.querySelector('body').appendChild(this._popoverElement);
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    this._renderPopover();
+	  },
+
+	  componentDidUpdate: function componentDidUpdate() {
+	    this._renderPopover();
+	  },
+
+	  _popoverComponent: function _popoverComponent() {
+	    var className = this.props.className;
+	    return React.createElement(
+	      'div',
+	      { className: className },
+	      this.props.children
+	    );
+	  },
+
+	  _tetherOptions: function _tetherOptions() {
+	    return {
+	      element: this._popoverElement,
+	      target: this.getDOMNode().parentElement,
+	      attachment: 'top left',
+	      targetAttachment: 'bottom left',
+	      targetOffset: '10px 0',
+	      optimizations: {
+	        moveElement: false // always moves to <body> anyway!
+	      },
+	      constraints: [{
+	        to: 'window',
+	        attachment: 'together'
+	      }]
+	    };
+	  },
+
+	  _renderPopover: function _renderPopover() {
+	    React.render(this._popoverComponent(), this._popoverElement);
+
+	    if (this._tether != null) {
+	      this._tether.setOptions(this._tetherOptions());
+	    } else if (window && document) {
+	      var Tether = __webpack_require__(9);
+	      this._tether = new Tether(this._tetherOptions());
+	    }
+	  },
+
+	  componentWillUnmount: function componentWillUnmount() {
+	    this._tether.destroy();
+	    React.unmountComponentAtNode(this._popoverElement);
+	    if (this._popoverElement.parentNode) {
+	      this._popoverElement.parentNode.removeChild(this._popoverElement);
+	    }
+	  },
+
+	  render: function render() {
+	    return React.createElement('span', null);
+	  }
+	});
+
+	module.exports = Popover;
 
 /***/ },
 /* 9 */
@@ -743,9 +627,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var React = __webpack_require__(1);
-	var DateUtil = __webpack_require__(4);
-	var moment = __webpack_require__(7);
+	var React = __webpack_require__(2);
+	var DateUtil = __webpack_require__(5);
+	var moment = __webpack_require__(4);
 
 	var DateInput = React.createClass({
 	  displayName: 'DateInput',
@@ -825,6 +709,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      onClick: this.handleClick,
 	      onKeyDown: this.handleKeyDown,
 	      onFocus: this.props.onFocus,
+	      onBlur: this.props.onBlur,
 	      onChange: this.handleChange,
 	      className: this.props.className,
 	      placeholder: this.props.placeholderText,
