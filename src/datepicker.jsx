@@ -47,6 +47,12 @@ var DatePicker = React.createClass({
     });
   },
 
+  lostFocus: function() {
+    this.setState({
+      focus: false
+    });
+  },
+
   hideCalendar: function() {
     setTimeout(function() {
       this.setState({
@@ -118,13 +124,14 @@ var DatePicker = React.createClass({
           dateFormat={this.props.dateFormat}
           focus={this.state.focus}
           onFocus={this.handleFocus}
+          onBlur={this.lostFocus}
           handleClick={this.onInputClick}
           handleEnter={this.hideCalendar}
           setSelected={this.setSelected}
           clearSelected={this.clearSelected}
           hideCalendar={this.hideCalendar}
           placeholderText={this.props.placeholderText}
-          disabled={this.props.disabled}  
+          disabled={this.props.disabled}
           className={this.props.className} />
         {this.props.disabled ? null : this.calendar()}
       </div>
